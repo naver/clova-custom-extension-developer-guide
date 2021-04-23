@@ -1,0 +1,9 @@
+{
+  "plugins": ["-search", "-lunr", "page-toc-button", "search-plus"],
+  "pluginsConfig": {
+    "page-toc-button": {
+      "maxTocDepth": 4,
+      "minTocSize": 2
+    }
+  }
+}
