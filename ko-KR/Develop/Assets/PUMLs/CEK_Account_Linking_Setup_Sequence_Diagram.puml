@@ -1,0 +1,50 @@
+!include ../../../styles/PlantUML_StyleSheet.puml
+
+actor "사용자" as user
+participant "클라이언트 앱\nor 페어링 앱" as app #9EA0CA
+participant CEK as cek #05D686
+actor "개발자" as dev #9EA0CA
+participant Extension as ext #9EA0CA
+participant "인증서버" as auth #9EA0CA
+
+dev ->> cek: 인증 관련 정보 사전 등록(OAuth 2.0)\l- Authorization URI\l- Client ID\l- Client Secret\l- Redirect URI\l- Access Token URI\l- ...
+
+activate cek
+deactivate cek
+
+user ->> app: Extension 활성화
+
+activate app
+  app ->> cek: Authorization URI 요청
+
+  activate cek
+    cek -->> app: Authorization URI 반환
+  deactivate cek
+
+  app ->> auth: 로그인 페이지 요청(Authorization URI)
+
+  activate auth
+    auth -->> app: 로그인 페이지 반환
+  deactivate auth
+
+  app -> app: 로그인 페이지 표시
+  user ->> app: 계정 인증(로그인)
+  app ->> auth: 인증 요청
+
+  activate auth
+  auth -->> app: Authorization code와 함께 redirect URI 전달
+  deactivate auth
+
+  app ->> cek: Authorization code 반환
+deactivate app
+
+  activate cek
+      cek ->> auth: Access Token URI로 authorization code 파라미터로 전달
+      activate auth
+        auth -->> cek: access token 반환
+      deactivate auth
+
+    cek -> cek: 사용자 계정 정보에\naccess token 저장
+    cek ->> ext: Access token과 함께 사용자 요청 전달
+    deactivate cek
+    activate ext
