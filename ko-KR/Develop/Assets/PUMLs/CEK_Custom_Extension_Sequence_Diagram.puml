@@ -1,0 +1,65 @@
+!include ../../../styles/PlantUML_StyleSheet.puml
+
+participant "CLOVA 앱\nor 기기" as client #9EA0CA
+participant "CLOVA" as clova #05D686
+participant "날씨 알리미\nCustom Extension" as ext #9EA0CA
+
+group Session
+  [->> client: 사용자 입력 수신
+  activate client
+    client ->> clova: "날씨 알리미에게 오늘 날씨 물어봐 줘"
+
+    activate clova
+      clova -> clova: 사용자 발화 분석\n(Interaction 모델)
+      clova ->> ext: IntentRequest 전송(HTTP Request)
+
+      activate ext
+        ext -> ext: 사용자 요청 처리
+        ext -->> clova: 응답 메시지 전달(HTTP Response)
+      deactivate ext
+
+      clova -->> client: "오늘 날씨는 맑아요"
+    deactivate clova
+
+  deactivate client
+end
+
+group Session
+  [->> client: 사용자 입력 수신
+  activate client
+    client ->> clova: "날씨 알리미에게 내일 날씨 물어봐 줘"
+
+    activate clova
+      clova -> clova: 사용자 발화 분석\n(Interaction 모델)
+      clova ->> ext: IntentRequest 전송(HTTP Request)
+
+      activate ext
+        ext -> ext: 사용자 요청 처리
+        ext -->> clova: 응답 메시지 전달(HTTP Response)
+      deactivate ext
+
+      clova -->> client: "내일 날씨는 흐려요"
+    deactivate clova
+
+  deactivate client
+end
+
+group Session
+  [->> client: 사용자 입력 수신
+  activate client
+    client ->> clova: "날씨 알리미에게 서울 날씨 물어봐 줘"
+
+    activate clova
+      clova -> clova: 사용자 발화 분석\n(Interaction 모델)
+      clova ->> ext: IntentRequest 전송(HTTP Request)
+
+      activate ext
+        ext -> ext: 사용자 요청 처리
+        ext -->> clova: 응답 메시지 전달(HTTP Response)
+      deactivate ext
+
+      clova -->> client: "서울 날씨는 맑아요"
+    deactivate clova
+
+  deactivate client
+end
