@@ -1,0 +1,14 @@
+{
+  "plugins": ["-search", "-lunr", "search-plus", "simpletabs", "edit-link", "splitter", "intopic-toc"],
+  "pluginsConfig": {
+    "edit-link": {
+      "base": "https://oss.navercorp.com/JTF-P6/Internal_Clova_Client_Developer_Guide/blob/document",
+      "label": {
+        "en": "View on GitHub (OSS)"
+      }
+    },
+    "intopic-toc": {
+      "maxDepth": 1
+    }
+  }
+}

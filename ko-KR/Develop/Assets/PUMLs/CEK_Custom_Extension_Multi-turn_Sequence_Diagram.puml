@@ -1,0 +1,85 @@
+!include ../../../styles/PlantUML_StyleSheet.puml
+
+participant "클라이언트 앱\nor 기기" as client #9EA0CA
+participant "CLOVA" as clova #05D686
+participant "Pizza-bot\nCustom extension" as ext #9EA0CA
+
+[->> client: 사용자 입력 수신
+
+activate client
+  client ->> clova: "피자봇 시작해줘"
+  hnote over client, clova: Extension 활성화
+
+    activate clova
+      clova -> clova: 사용자 발화 분석\l(Interaction 모델)
+
+    group Session
+
+      group Initiation
+        clova ->> ext: LaunchRequest 전송(HTTP Request)
+
+        activate ext
+          ext -> ext: 사용자 요청 처리
+          ext -->> clova: 응답 메시지 전달(HTTP Response)
+        deactivate ext
+
+        clova -->> client: "안녕하세요. 피자봇입니다.\l무엇을 도와드릴까요?"
+
+        deactivate clova
+
+      end
+
+  [->> client: 사용자 입력 수신
+
+  client ->> clova: "페퍼로니 피자 주문해줘."
+
+  activate clova
+    clova -> clova: 사용자 발화 분석\l(Interaction 모델)
+    clova ->> ext: IntentRequest 전송(HTTP Request)
+
+    activate ext
+      ext -> ext: 사용자 요청 처리
+      ext -->> clova: 응답 메시지 전달(HTTP Response)
+    deactivate ext
+
+    clova -->> client: "몇 판 주문할까요?"
+
+  deactivate clova
+
+  [->> client: 사용자 입력 수신
+
+  client ->> clova: "두 판 주문해줘."
+
+  activate clova
+    clova -> clova: 사용자 발화 분석\l(Interaction 모델)
+    clova ->> ext: IntentRequest 전송(HTTP Request)
+
+    activate ext
+      ext -> ext: 사용자 요청 처리
+      ext -->> clova: 응답 메시지 전달(HTTP Response)
+    deactivate ext
+
+    clova -->> client: "어디로 배달할까요?"
+
+  deactivate clova
+
+  group Termination
+
+    [->> client: 사용자 입력 수신
+
+    client ->> clova: "그만 종료해줘."
+    hnote over client, clova: Extension 사용 종료
+
+    activate clova
+      clova -> clova: "사용자 발화 분석\n(Interaction 모델)"
+      clova ->> ext: SessionEndedRequest 전송(HTTP Request)
+    deactivate clova
+
+	activate ext
+		ext -> ext: 종료
+	activate ext
+	deactivate ext
+	deactivate ext
+  end
+
+end
